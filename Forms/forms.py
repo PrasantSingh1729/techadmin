@@ -11,8 +11,9 @@ class Login_form(FlaskForm):
 class Change_password_form(FlaskForm):
     username = EmailField(validators=[InputRequired()])
     password = PasswordField(validators=[InputRequired(),Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')])
-    confirm_password = PasswordField(validators=[InputRequired(),Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'), EqualTo(password)])
-    submit = SubmitField()
+    new_password = PasswordField(validators=[InputRequired(),Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')])
+    confirm_password = PasswordField(validators=[InputRequired(),Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'), EqualTo('new_password')])
+    submit = SubmitField("Change password")
 
 class Schedule_movie_form(FlaskForm):
     movie_name = SelectField(validators=[InputRequired()])
