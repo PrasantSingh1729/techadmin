@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BoxOffice{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    {% block style %} {% endblock %}
+</head>
+<body>
+    <div class="header">
+        <h2>Welcome to BoxOffice</h2>
+    </div>
+    <div class="container">
+        {% block navbar %}
+        <div class="sidebar">
+            {% block navbar_links %}
+                <a href="schedule">Schedule Movie</a>
+                <a href="delete">Delete Schedule</a>
+                <a href="view">View Schedule</a>
+            {% endblock %}
+        </div>
+        {% endblock %}
+
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Copyright &copy; www.boxoffice.com</p>
+    </div>
+</body>
+</html>

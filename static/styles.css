@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.header, .footer {
+    background-color: #D2691E;
+    padding: 15px;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+}
+.sidebar {
+    width: 200px;
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 20rem;
+    height: 80vh;
+}
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+}
+.sidebar a:hover {
+    background-color: #575757;
+}
+
+.content {
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.greeting{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.top-left-link{
+    position: fixed;
+    right: 20px;
+}
+
+.center-form{
+    margin: 0 auto;
+}
+
+.color-form{
+    background-color: bisque;
+    border: solid;
+    padding: 4px;
+}
+
+td,th {
+    text-align: left;
+    padding-left: 1rem;
+}
+
+.movie-table{
+    background-color: bisque;
+    border: solid;
+    padding: 4px;
+    margin: 0 auto;
+}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Login Form{% endblock %}
+
+{% block content %}
+    <h3>View Schedule</h3>
+    <form method="post" action="{{ url_for('techadmin_change_password') }}">
+        {{form.csrf_token}}
+        <table class="center-form color-form">
+            <tr>
+                <td>{{form.movie_name.label}} :</td>
+                <td>{{form.movie_name}}</td>
+                <td>{{form.theater_name.label}} :</td>
+                <td>{{form.theater_name}}</td>
+                <td>{{form.start_date.label}} :</td>
+                <td>{{form.start_date}}</td>
+                <td>{{form.submit}}</td>
+            </tr>
+        </table>
+        <br>
+    </form>
+    <br>
+    <table class="movie-table">
+        <tr>
+            <th>Movie Name</th>
+            <th>Theater Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+        </tr>
+        {% for movie in movie_list %}
+        <tr>
+            <td>{{movie.movie_name}}</td>
+            <td>{{movie.theater_name}}</td>
+            <td>{{movie.start_date}}</td>
+            <td>{{movie.end_date}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
