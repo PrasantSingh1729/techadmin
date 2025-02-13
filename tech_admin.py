@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request , render_template, redirect, url_for, session, flash
-from Forms.forms import Login_form, Change_password_form, Schedule_movie_form, Delete_schedule_form, Filter_movie_form
+from Forms.tech_admin_forms import Login_form, Change_password_form, Schedule_movie_form, Delete_schedule_form, Filter_movie_form
 from flask_mysqldb import MySQL
 from functools import wraps
 
@@ -115,7 +115,7 @@ def techadmin_login():
 				flash("Please enter the correct password!")
 
 			if validation==1 or validation==2:
-				return render_template('login.html', form=login_form)
+				return render_template('tech_admin_login.html', form=login_form)
 			
 			session['logged_in'] = True
 			session['user_name'] = validation
@@ -124,7 +124,7 @@ def techadmin_login():
 		if 'logged_in' in session:
 			return redirect(url_for('techadmin_home'))
 		
-		return render_template('login.html', form=login_form)
+		return render_template('tech_admin_login.html', form=login_form)
 	finally:
 		cursor.close()
 
@@ -143,7 +143,7 @@ def techadmin_change_password():
 			flash("Please enter the correct password!")
 
 		if validation==1 or validation==2:
-			return render_template('change_password.html', form=form)
+			return render_template('tech_admin_change_password.html', form=form)
 		
 		connection = mysql.connection
 		cursor = connection.cursor()
@@ -153,12 +153,12 @@ def techadmin_change_password():
 
 		flash('Password changed successfully')
 		return redirect(url_for('techadmin_login'))
-	return render_template('change_password.html', form=form)
+	return render_template('tech_admin_change_password.html', form=form)
 
 @app.route('/techadmin/home', methods=['GET'])
 @is_logged_in
 def techadmin_home(): 
-	return render_template('home.html')
+	return render_template('tech_admin_home.html')
 
 @app.route('/techadmin/schedule', methods=['GET'])
 @is_logged_in
@@ -166,7 +166,7 @@ def techadmin_schedule_movie():
 	form = Schedule_movie_form()
 	form.movie_name.choices = get_movie_names()
 	form.theater_name.choices = get_theater_names()
-	return render_template('schedule_movie.html', form=form)
+	return render_template('tech_admin_schedule_movie.html', form=form)
 
 @app.route('/techadmin/delete', methods=['GET'])
 @is_logged_in
@@ -174,7 +174,7 @@ def techadmin_delete_schedule():
 	form = Delete_schedule_form()
 	form.movie_name.choices = get_movie_names()
 	form.theater_name.choices = get_theater_names()
-	return render_template('delete_schedule.html', form=form)
+	return render_template('tech_admin_delete_schedule.html', form=form)
 
 @app.route('/techadmin/view', methods=['GET','POST'])
 @is_logged_in
@@ -189,7 +189,7 @@ def techadmin_view_schedule():
 		movie_list = get_schedule_list_filter(movie_name, theater_name, start_date)
 	else:
 		movie_list = get_schedule_list_filter(None,None,None)
-	return render_template('view_schedule.html', form=form, movie_list=movie_list)
+	return render_template('tech_admin_view_schedule.html', form=form, movie_list=movie_list)
 
 if __name__ == '__main__': 
 	app.run(debug=True) 

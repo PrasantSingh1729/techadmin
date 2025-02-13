@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}BoxOffice{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tech_admin_style.css') }}">
     {% block style %} {% endblock %}
 </head>
 <body>
@@ -15,9 +15,9 @@
         {% block navbar %}
         <div class="sidebar">
             {% block navbar_links %}
-                <a href="schedule">Schedule Movie</a>
-                <a href="delete">Delete Schedule</a>
-                <a href="view">View Schedule</a>
+                <a href="{{ url_for('techadmin_schedule_movie') }}">Schedule Movie</a>
+                <a href="{{ url_for('techadmin_delete_schedule') }}">Delete Schedule</a>
+                <a href="{{ url_for('techadmin_view_schedule') }}">View Schedule</a>
             {% endblock %}
         </div>
         {% endblock %}
