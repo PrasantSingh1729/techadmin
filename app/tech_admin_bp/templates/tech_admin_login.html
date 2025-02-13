@@ -7,7 +7,7 @@
 
 {% block content %}
     <h3>Enter your credentials</h3>
-    <form method="post" action="{{ url_for('techadmin_login') }}">
+    <form method="post" action="{{ url_for('tech_admin_bp.techadmin_login') }}">
         {{form.csrf_token}}
         {{form.username.label}} : {{form.username}}
         <br><br>
@@ -17,5 +17,5 @@
         <input type="reset">
     </form>
     <br>
-    <a href="{{ url_for('techadmin_change_password')}}">Change Password</a>
+    <a href="{{ url_for('tech_admin_bp.techadmin_change_password')}}">Change Password</a>
 {% endblock %}

@@ -4,7 +4,7 @@
 
 {% block content %}
     <h3>View Schedule</h3>
-    <form method="post" action="{{ url_for('techadmin_view_schedule') }}">
+    <form method="post" action="{{ url_for('tech_admin_bp.techadmin_view_schedule') }}">
         {{form.csrf_token}}
         <table class="center-form color-form">
             <tr>

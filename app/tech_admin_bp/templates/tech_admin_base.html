@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}BoxOffice{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='tech_admin_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('tech_admin_bp.static', filename='css/tech_admin_style.css') }}">
     {% block style %} {% endblock %}
 </head>
 <body>
@@ -15,9 +15,9 @@
         {% block navbar %}
         <div class="sidebar">
             {% block navbar_links %}
-                <a href="{{ url_for('techadmin_schedule_movie') }}">Schedule Movie</a>
-                <a href="{{ url_for('techadmin_delete_schedule') }}">Delete Schedule</a>
-                <a href="{{ url_for('techadmin_view_schedule') }}">View Schedule</a>
+                <a href="{{ url_for('tech_admin_bp.techadmin_schedule_movie') }}">Schedule Movie</a>
+                <a href="{{ url_for('tech_admin_bp.techadmin_delete_schedule') }}">Delete Schedule</a>
+                <a href="{{ url_for('tech_admin_bp.techadmin_view_schedule') }}">View Schedule</a>
             {% endblock %}
         </div>
         {% endblock %}
@@ -32,7 +32,7 @@
             {% endwith %}
             {% block right_top_link %}
                 <div class="top-left-link">
-                    Hi {{session.user_name}} | <a href="{{url_for('techadmin_home')}}">Home</a> | <a href="{{ url_for('techadmin_logout') }}">Logout</a>
+                    Hi {{session.user_name}} | <a href="{{url_for('tech_admin_bp.techadmin_home')}}">Home</a> | <a href="{{ url_for('tech_admin_bp.techadmin_logout') }}">Logout</a>
                 </div>
             {% endblock %}
             {% block content %}{% endblock %}
