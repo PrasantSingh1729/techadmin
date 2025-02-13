@@ -8,6 +8,13 @@
 {% block content %}
     <h3>Enter your credentials</h3>
     <form method="post" action="{{ url_for('tech_admin_bp.techadmin_login') }}">
+        {% with messages = get_flashed_messages() %} 
+            {% if messages %} 
+                {% for msg in messages %} 
+                <p>{{msg}}</p>
+                {% endfor %} 
+            {% endif %} 
+        {% endwith %}
         {{form.csrf_token}}
         {{form.username.label}} : {{form.username}}
         <br><br>

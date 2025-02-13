@@ -23,13 +23,6 @@
         {% endblock %}
 
         <div class="content">
-            {% with messages = get_flashed_messages() %} 
-                {% if messages %} 
-                    {% for msg in messages %} 
-                    <p>{{msg}}</p>
-                    {% endfor %} 
-                {% endif %} 
-            {% endwith %}
             {% block right_top_link %}
                 <div class="top-left-link">
                     Hi {{session.user_name}} | <a href="{{url_for('tech_admin_bp.techadmin_home')}}">Home</a> | <a href="{{ url_for('tech_admin_bp.techadmin_logout') }}">Logout</a>

@@ -4,7 +4,14 @@
 
 {% block content %}
     <h3>Schedule Movie</h3>
-    <form method="post" action="{{ url_for('tech_admin_bp.techadmin_change_password') }}">
+    <form method="post" action="{{ url_for('tech_admin_bp.techadmin_schedule_movie') }}">
+        {% with messages = get_flashed_messages() %} 
+            {% if messages %} 
+                {% for msg in messages %} 
+                <p>{{msg}}</p>
+                {% endfor %} 
+            {% endif %} 
+        {% endwith %}
         {{form.csrf_token}}
         <table class="center-form color-form">
             <tr>
