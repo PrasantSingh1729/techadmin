@@ -42,6 +42,17 @@ def validate_techadmin_login(username, password):
 	finally:
 		cursor.close()
 
+def get_theater_names():
+	connection = mysql.connection
+	cursor = connection.cursor()
+	try:
+		cursor.execute("SELECT theater_name FROM theater")
+		data = cursor.fetchall()
+		data = [entry['theater_name'] for entry in data]
+		return data
+	finally:
+		cursor.close()
+	
 def get_movie_names():
 	connection = mysql.connection
 	cursor = connection.cursor()
@@ -52,7 +63,29 @@ def get_movie_names():
 		return data
 	finally:
 		cursor.close()
-	
+
+def get_schedule_list_filter(movie_name, theater_name, start_date):
+	connection = mysql.connection
+	cursor = connection.cursor()
+	try:
+		query = "SELECT * FROM schedule WHERE 1=1"
+		params = []
+		if movie_name:
+			query += " AND movie_name=%s"
+			params.append(movie_name)
+		if theater_name:
+			query += " AND theater_name=%s"
+			params.append(theater_name)
+		if start_date:
+			query += " AND start_date=%s"
+			params.append(start_date)
+
+		cursor.execute(query,params)
+		data = cursor.fetchall()
+		return data
+	finally:
+		cursor.close()
+
 @app.route("/techadmin/logout")
 def techadmin_logout():
 	session.clear()
@@ -106,22 +139,32 @@ def techadmin_home():
 @app.route('/techadmin/schedule', methods=['GET'])
 @is_logged_in
 def schedule_movie():
-	schedule_form = Schedule_movie_form()
-	schedule_form.movie_name.choices = get_movie_names()
-	return render_template('schedule_movie.html', form=schedule_form)
+	form = Schedule_movie_form()
+	form.movie_name.choices = get_movie_names()
+	form.theater_name.choices = get_theater_names()
+	return render_template('schedule_movie.html', form=form)
 
 @app.route('/techadmin/delete', methods=['GET'])
 @is_logged_in
 def delete_schedule():
 	form = Delete_schedule_form()
+	form.movie_name.choices = get_movie_names()
+	form.theater_name.choices = get_theater_names()
 	return render_template('delete_schedule.html', form=form)
 
-@app.route('/techadmin/view', methods=['GET'])
+@app.route('/techadmin/view', methods=['GET','POST'])
 @is_logged_in
-def view_schedule():
+def techadmin_view_schedule():
 	form = Filter_movie_form()
-	# entring dummy data for now
-	movie_list = [{'movie_name':'DDL', 'theater_name':'PVR Nexus', 'start_date':'12/03/24','end_date': '12/04/24'}]
+	form.movie_name.choices = [""] + get_movie_names()
+	form.theater_name.choices = [""] + get_theater_names()
+	if form.validate_on_submit():
+		movie_name = form.movie_name.data
+		theater_name = form.theater_name.data
+		start_date = form.start_date.data
+		movie_list = get_schedule_list_filter(movie_name, theater_name, start_date)
+	else:
+		movie_list = get_schedule_list_filter(None,None,None)
 	return render_template('view_schedule.html', form=form, movie_list=movie_list)
 
 if __name__ == '__main__': 

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, EmailField, SelectField, DateField
-from wtforms.validators import Email, InputRequired, Regexp, EqualTo
+from wtforms.validators import Email, InputRequired, Regexp, EqualTo, Optional
 
 
 class Login_form(FlaskForm):
@@ -29,5 +29,8 @@ class Delete_schedule_form(FlaskForm):
     submit = SubmitField(label="Delete")
 
 class Filter_movie_form(Delete_schedule_form):
+    movie_name = SelectField()
+    theater_name = SelectField()
+    start_date = DateField(validators=[Optional()])
     submit = SubmitField(label="Filter")
     
