@@ -8,9 +8,11 @@
 
 
 {% block content %}
+{% block right_top_link %}
 <div class="top-left-link">
-    Hi Peter | <a href="/index">Index</a> | <a href="techadmin/logout">Logout</a>
+    Hi {{session.user_name}} | <a href="/index">Index</a> | <a href="{{ url_for('techadmin_logout') }}">Logout</a>
 </div>
+{% endblock %}
 <div class="greeting">
     BoxOffice Welcome You 😍 <br>
     Hi Tech Admin

@@ -5,7 +5,7 @@ from wtforms.validators import Email, InputRequired, Regexp, EqualTo
 
 class Login_form(FlaskForm):
     username = EmailField(validators=[InputRequired()])
-    password = PasswordField(validators=[InputRequired(),Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')])
+    password = PasswordField(validators=[InputRequired()])
     submit = SubmitField(label="Login")
 
 class Change_password_form(FlaskForm):
@@ -30,3 +30,4 @@ class Delete_schedule_form(FlaskForm):
 
 class Filter_movie_form(Delete_schedule_form):
     submit = SubmitField(label="Filter")
+    
