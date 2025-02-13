@@ -10,9 +10,9 @@ class Login_form(FlaskForm):
 
 class Change_password_form(FlaskForm):
     username = EmailField(validators=[InputRequired()])
-    password = PasswordField(validators=[InputRequired(),Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')])
-    new_password = PasswordField(validators=[InputRequired(),Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')])
-    confirm_password = PasswordField(validators=[InputRequired(),Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'), EqualTo('new_password')])
+    old_password = PasswordField(validators=[InputRequired()])
+    new_password = PasswordField(validators=[InputRequired(),Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$', message="Should contain at least one uppercase letter, one special character one digit and should have minimum 8 characters in length")])
+    confirm_password = PasswordField(validators=[InputRequired(), EqualTo('new_password',message='Confirm new password: should match with new password')])
     submit = SubmitField("Change password")
 
 class Schedule_movie_form(FlaskForm):

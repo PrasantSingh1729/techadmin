@@ -14,7 +14,9 @@ app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 
 mysql=MySQL(app)
 
-#check if user logged in
+######################################
+#  Helper Functions                  #
+######################################
 def is_logged_in(f):
 	@wraps(f)
 	def wrap(*args,**kwargs):
@@ -86,7 +88,11 @@ def get_schedule_list_filter(movie_name, theater_name, start_date):
 	finally:
 		cursor.close()
 
+######################################
+# Routes                             #
+######################################
 @app.route("/techadmin/logout")
+@is_logged_in
 def techadmin_logout():
 	session.clear()
 	flash('You are now logged out','success')
@@ -124,12 +130,30 @@ def techadmin_login():
 
 @app.route('/techadmin/changepassword', methods=['GET','POST']) 
 def techadmin_change_password():
-	change_password_form = Change_password_form()
-	if change_password_form.validate_on_submit():
-		# check if user exist in database with role as tech admin
-		# Complete the code
+	form = Change_password_form()
+	if form.validate_on_submit():
+		username = form.username.data
+		password = form.old_password.data
+		new_password = form.new_password.data
+		print(username,password)
+		validation = validate_techadmin_login(username,password)
+		if validation==1:
+			flash("You are not authorized to login!")
+		elif validation==2:
+			flash("Please enter the correct password!")
+
+		if validation==1 or validation==2:
+			return render_template('change_password.html', form=form)
+		
+		connection = mysql.connection
+		cursor = connection.cursor()
+		cursor.execute("UPDATE user SET password=%s WHERE email_address=%s",(new_password,username))
+		connection.commit()
+		cursor.close()
+
+		flash('Password changed successfully')
 		return redirect(url_for('techadmin_login'))
-	return render_template('change_password.html', form=change_password_form)
+	return render_template('change_password.html', form=form)
 
 @app.route('/techadmin/home', methods=['GET'])
 @is_logged_in
@@ -138,7 +162,7 @@ def techadmin_home():
 
 @app.route('/techadmin/schedule', methods=['GET'])
 @is_logged_in
-def schedule_movie():
+def techadmin_schedule_movie():
 	form = Schedule_movie_form()
 	form.movie_name.choices = get_movie_names()
 	form.theater_name.choices = get_theater_names()
@@ -146,7 +170,7 @@ def schedule_movie():
 
 @app.route('/techadmin/delete', methods=['GET'])
 @is_logged_in
-def delete_schedule():
+def techadmin_delete_schedule():
 	form = Delete_schedule_form()
 	form.movie_name.choices = get_movie_names()
 	form.theater_name.choices = get_theater_names()
