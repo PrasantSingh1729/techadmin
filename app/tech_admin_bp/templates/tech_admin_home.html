@@ -10,7 +10,7 @@
 {% block content %}
 {% block right_top_link %}
 <div class="top-left-link">
-    Hi {{session.user_name}} | <a href="/index">Index</a> | <a href="{{ url_for('tech_admin_bp.techadmin_logout') }}">Logout</a>
+    Hi {{session.user_name}} | <a href="/">Index</a> | <a href="{{ url_for('tech_admin_bp.techadmin_logout') }}">Logout</a>
 </div>
 {% endblock %}
 <div class="greeting">

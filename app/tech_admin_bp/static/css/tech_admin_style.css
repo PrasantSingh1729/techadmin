@@ -5,7 +5,7 @@ body {
 }
 .header, .footer {
     background-color: #D2691E;
-    padding: 15px;
+    padding: 1vw;
 }
 
 .container {
@@ -16,7 +16,7 @@ body {
     width: 200px;
     background-color: #333;
     color: white;
-    padding: 15px;
+    padding: 2vh;
     display: flex;
     flex-direction: column;
     text-align: left;
@@ -34,15 +34,16 @@ body {
 }
 
 .content {
-    padding: 20px;
+    padding: 2%;
     text-align: center;
-    width: 100%;
+    width: 96%;
+    height: 96%;
 }
 
 .footer {
     position: absolute;
     bottom: 0;
-    width: 100%;
+    width: 98vw;
 }
 
 .greeting{

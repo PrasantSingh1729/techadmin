@@ -4,6 +4,7 @@ from flask_mysqldb import MySQL
 from functools import wraps
 from app.extension import mysql
 from flask import Blueprint
+from datetime import date
 
 tech_admin_bp = Blueprint(
     'tech_admin_bp', 
@@ -160,12 +161,36 @@ def techadmin_change_password():
 def techadmin_home(): 
 	return render_template('tech_admin_home.html')
 
-@tech_admin_bp.route('/schedule', methods=['GET'])
+@tech_admin_bp.route('/schedule', methods=['GET','POST'])
 @is_logged_in
 def techadmin_schedule_movie():
 	form = Schedule_movie_form()
 	form.movie_name.choices = get_movie_names()
 	form.theater_name.choices = get_theater_names()
+	if form.validate_on_submit():
+		movie_name = form.movie_name.data
+		theater_name = form.theater_name.data
+		start_date = form.start_date.data
+		end_date = form.end_date.data
+		connection = mysql.connection
+		cursor = connection.cursor()
+		cursor.execute("SELECT release_date from movie where movie_name=%s",(movie_name,))
+		data = cursor.fetchone()
+		release_date = data['release_date']
+		current_date = date.today()
+		difference = end_date - start_date
+		print(movie_name, start_date, end_date, current_date, release_date, difference.days)
+		if(start_date < current_date):
+			flash('Start date should be greater than current date')
+		elif(start_date < release_date):
+			flash('Start date should be greater than release date')
+		elif(difference.days<10 or difference.days>30):
+			flash('Duration of the show should be minimum 10 days and maximum 30 days ')
+		else:
+			cursor.execute("insert into schedule (theater_name,movie_name, start_date, end_date) values(%s, %s, %s, %s)",(theater_name,movie_name,start_date,end_date))
+			connection.commit()
+			flash('Movie schedule added successfully')
+		cursor.close()
 	return render_template('tech_admin_schedule_movie.html', form=form)
 
 @tech_admin_bp.route('/delete', methods=['GET','POST'])
